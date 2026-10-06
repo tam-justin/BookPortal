@@ -10,8 +10,7 @@ import SignedIn from "../layouts/SignedIn";
 import SearchBar from "../layouts/SearchBar";
 
 const Navi = () => {
-
-  const { isLoggedIn, isAdmin } = useSelector(state => state.auth);
+  const { isLoggedIn, isAdmin } = useSelector((state) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
@@ -34,13 +33,12 @@ const Navi = () => {
     setIsAuthenticated(true);
   }
 
-  const onChangeLanguage = language => {
+  const onChangeLanguage = (language) => {
     i18n.changeLanguage(language);
-
   };
 
   let panel = (
-    <Dropdown item text={t("Admin Panel")}>
+    <Dropdown item text={t("Admin's Panel")}>
       <Dropdown.Menu>
         <Link to={`/books/add`}>
           <Dropdown.Item text={t("Add Book")} icon="add" />
@@ -55,24 +53,36 @@ const Navi = () => {
     </Dropdown>
   );
 
-  return (<div>
-    <Menu fixed="top">
-      <Container>
-        <Image size="tiny" src={portalLogo} />
-        {isLoggedIn && <SearchBar />}
-        <Menu.Menu position="right">
-          {isAdmin && panel}
-          <Dropdown item text={t("Language")}>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => onChangeLanguage("tr")}><Flag name="tr" />{t("Turkish")}</Dropdown.Item>
-              <Dropdown.Item onClick={() => onChangeLanguage("en")}><Flag name="gb" />{t("English")}</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {isAuthenticated ? <SignedIn signOut={handleSignOut} /> : <SignedOut signIn={handleSignIn} />}
-        </Menu.Menu>
-      </Container>
-    </Menu>
-  </div>);
+  return (
+    <div>
+      <Menu fixed="top">
+        <Container>
+          <Image size="tiny" src={portalLogo} />
+          {isLoggedIn && <SearchBar />}
+          <Menu.Menu position="right">
+            {isAdmin && panel}
+            <Dropdown item text={t("Language")}>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => onChangeLanguage("tr")}>
+                  <Flag name="tr" />
+                  {t("Turkish")}
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => onChangeLanguage("en")}>
+                  <Flag name="gb" />
+                  {t("English")}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {isAuthenticated ? (
+              <SignedIn signOut={handleSignOut} />
+            ) : (
+              <SignedOut signIn={handleSignIn} />
+            )}
+          </Menu.Menu>
+        </Container>
+      </Menu>
+    </div>
+  );
 };
 
 export default Navi;
